@@ -3,6 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>To do list</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyCDkPUhLC8odBTxomZRD6v7szpoAuH5-ZI",
+	    authDomain: "to-do-list-b5c66.firebaseapp.com",
+	    databaseURL: "https://to-do-list-b5c66.firebaseio.com",
+	    projectId: "to-do-list-b5c66",
+	    storageBucket: "",
+	    messagingSenderId: "411455509250"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+    
   </head>
   <body>
     <div id="container">
@@ -15,6 +30,7 @@
       <ul id="task_list">
       </ul>
       <h3 id="no_tasks"> Your free! You have nothing to do!</h3>
+      <button id="clear_tasks">Clear all tasks</button>
     </div>
     <script src="script.js" charset="utf-8"></script>
   </body>

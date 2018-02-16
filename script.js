@@ -1,8 +1,17 @@
 const taskList = document.querySelector('#task_list');
 const noTasksText = document.querySelector('#no_tasks');
 const submitField = document.querySelector('#submit_task');
+const clearTasks = document.querySelector('#clear_tasks');
+const dataBase = firebase.database().ref();
+const dbRef = firebase.database().ref("/u/0/project/to-do-list-b5c66/database/to-do-list-b5c66/data/");
 const allTasks = [];
 
+// set in database
+const taskCount = 0;
+
+
+
+// functions
 function checkForTasks() {
   if(localStorage.getItem('tasks') === null) {
 	console.log('no local storage');
@@ -30,7 +39,7 @@ function getValue() {
   const inputField = document.querySelector('#input_task');
   const listItem = document.createElement('LI');
   const inputNode = document.createTextNode(inputField.value);
-
+  const stringInput = inputField.value;
 
   allTasks.push(inputField.value);
   localStorage.setItem('tasks', JSON.stringify(allTasks));
@@ -42,10 +51,33 @@ function getValue() {
   inputField.value = "";
 
   noTasksText.style.display = 'none';
+  
+  console.log(stringInput);
+  
+  dbRef.child('tasks').update({
+	  [`task-${taskCount}`]: [`${stringInput}`]
+  });
 
 }
 
-checkForTasks();
-submitField.addEventListener("click", getValue);
 
-//localStorage.clear();
+dbRef.on("value", function(snapshot) {
+  console.log(snapshot.val());
+}, function (errorObject) {
+  console.log("The read failed: " + errorObject.code);
+});
+
+
+
+function clear() {
+	localStorage.clear();
+	location.reload();
+}
+
+submitField.addEventListener("click", getValue);
+clearTasks.addEventListener("click", clear);
+
+checkForTasks();
+
+
+// https://console.firebase.google.com/u/0/project/to-do-list-b5c66/database/to-do-list-b5c66/data/
